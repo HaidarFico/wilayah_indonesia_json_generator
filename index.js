@@ -6,18 +6,28 @@ const province = [];
 const city = [];
 const regency = [];
 
+function toTitleCase(str) {
+  return str.replace(
+    /\w\S*/g,
+    text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
+  );
+}
+
 fs.createReadStream("./Wilayah_Indonesia.csv")
   .pipe(csv())
   .on("data", (data) => {
     const codeLength = data["Kode_Area"].split(".").length;
     if (codeLength === 1) {
       data.uuid = uuid.v4();
+      data.Nama = toTitleCase(data.Nama);
       province.push(data);
     } else if (codeLength === 2) {
       data.uuid = uuid.v4();
+      data.Nama = toTitleCase(data.Nama);
       city.push(data);
     } else if (codeLength === 3) {
       data.uuid = uuid.v4();
+      data.Nama = toTitleCase(data.Nama);
       regency.push(data);
     }
   })
