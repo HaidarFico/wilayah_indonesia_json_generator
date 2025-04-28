@@ -13,6 +13,15 @@ function toTitleCase(str) {
   );
 }
 
+function kabupatenTranslate(str) {
+  return str.replace(
+    /Kab\./,
+    () => {
+      return 'Kabupaten'
+    }
+  );
+}
+
 fs.createReadStream("./Wilayah_Indonesia.csv")
   .pipe(csv())
   .on("data", (data) => {
@@ -38,6 +47,9 @@ fs.createReadStream("./Wilayah_Indonesia.csv")
         return obj.Kode_Area === provinceCode;
       });
       cityDataEntry.province_uuid = provinceObject.uuid
+      if (cityDataEntry.Nama.includes('Kab.')) {
+        cityDataEntry.Nama = kabupatenTranslate(cityDataEntry.Nama)
+      }
     }
 
     for (const regencyDataEntry of regency) {        
