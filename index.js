@@ -1,7 +1,7 @@
 const csv = require("csv-parser");
 const fs = require("fs");
+const uuid = require('uuid');
 
-const results = [];
 const province = [];
 const city = []
 const regency = []
@@ -12,12 +12,15 @@ fs.createReadStream("./Wilayah_Indonesia.csv")
     const codeLength = data['Kode_Area'].split('.').length;
 
     if (codeLength === 1) {
+        data.uuid = uuid.v4();
         province.push(data);
-    }
-    else if (codeLength === 2) {
+      }
+      else if (codeLength === 2) {
+        data.uuid = uuid.v4();
         city.push(data);
-    }
-    else if (codeLength === 3) {
+      }
+      else if (codeLength === 3) {
+        data.uuid = uuid.v4();
         regency.push(data);
     }
   })
